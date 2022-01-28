@@ -80,8 +80,8 @@ test_values = [("Powell", {'maxiter': 1}, True, 'vqe_powell.out'),
                ("Powell", {'maxiter': 1}, False, 'vqe_powell.out'),
                ("BFGS", {'maxiter': 1}, True, 'vqe_bfgs.out'),
                ("BFGS", {'maxiter': 1}, False, 'vqe_bfgs.out'),
-               ("parallel_L-BFGS-B", {'maxiter': 1}, True, None),
-               ("parallel_L-BFGS-B", {'maxiter': 1}, False, None),
+               #("parallel_L-BFGS-B", {'maxiter': 1}, True, None),
+               #("parallel_L-BFGS-B", {'maxiter': 1}, False, None),
                ("cma", {"maxfevals": 2}, False, None),
                ("sgd", {"nepochs": 5}, False, None),
                ("sgd", {"nepochs": 5}, True, None)]
@@ -310,8 +310,8 @@ def test_falqon_optimization_callback(backend):
 test_names = "method,options,compile,filename"
 test_values = [("Powell", {'maxiter': 1}, False, 'aavqe_powell.out'),
                ("BFGS", {'maxiter': 1}, False, 'aavqe_bfgs.out'),
-               ("cma", {"maxfevals": 2}, False, None),
-               ("parallel_L-BFGS-B", {'maxiter': 1}, False, None)]
+               ("cma", {"maxfevals": 2}, False, None)]
+               #("parallel_L-BFGS-B", {'maxiter': 1}, False, None)]
 @pytest.mark.parametrize(test_names, test_values)
 def test_aavqe(backend, method, options, compile, filename):
     """Performs a AAVQE circuit minimization test."""
@@ -346,7 +346,7 @@ def test_aavqe(backend, method, options, compile, filename):
     easy_hamiltonian=hamiltonians.X(nqubits)
     problem_hamiltonian=hamiltonians.XXZ(nqubits)
     s = lambda t: t
-    aavqe = models.AAVQE(circuit, easy_hamiltonian, problem_hamiltonian, 
+    aavqe = models.AAVQE(circuit, easy_hamiltonian, problem_hamiltonian,
                         s, nsteps=10, t_max=1)
     np.random.seed(0)
     initial_parameters = np.random.uniform(0, 2*np.pi, 2*nqubits*layers + nqubits)
@@ -359,4 +359,4 @@ def test_aavqe(backend, method, options, compile, filename):
     if filename is not None:
         assert_regression_fixture(params, filename, rtol=1e-2)
     qibo.set_threads(original_threads)
-    
+
